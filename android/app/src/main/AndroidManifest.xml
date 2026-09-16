@@ -12,6 +12,11 @@
         android:icon="@mipmap/ic_launcher"
         android:supportsRtl="true">
 
+        <!-- Flutter v2 embedding marker for modern Flutter toolchains -->
+        <meta-data
+            android:name="flutterEmbedding"
+            android:value="2" />
+
         <!-- Core Main Activity -->
         <activity
             android:name=".MainActivity"
@@ -25,6 +30,9 @@
             <meta-data
                 android:name="io.flutter.embedding.android.NormalTheme"
                 android:resource="@style/NormalTheme" />
+            <meta-data
+                android:name="flutterEmbedding"
+                android:value="2" />
             
             <!-- Direct Urge Surfing SOS Deep Link / Action for zero-friction launch -->
             <intent-filter>

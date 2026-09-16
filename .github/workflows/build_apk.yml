@@ -32,22 +32,42 @@ jobs:
       - name: Install Dependencies
         run: flutter pub get
 
-      - name: Decode Keystore & Generate key.properties
+      - name: Setup Keystore & Signing Config
         env:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
           STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
         run: |
-          echo "$KEYSTORE_BASE64" | base64 --decode > android/app/upload-keystore.jks
-          cat > android/key.properties <<EOF
+          if [ -n "$KEYSTORE_BASE64" ] && [ -n "$KEY_ALIAS" ]; then
+            echo "Secrets provided. Generating production release signing config..."
+            echo "$KEYSTORE_BASE64" | base64 --decode > android/app/upload-keystore.jks
+            cat > android/key.properties <<EOF
           storePassword=$STORE_PASSWORD
           keyPassword=$KEY_PASSWORD
           keyAlias=$KEY_ALIAS
           storeFile=upload-keystore.jks
           EOF
+          else
+            echo "No custom release keystore secrets found. Generating automated keystore for CI build..."
+            keytool -genkeypair -v \
+              -keystore android/app/upload-keystore.jks \
+              -alias releaseKey \
+              -keyalg RSA \
+              -keysize 2048 \
+              -validity 10000 \
+              -storepass android123 \
+              -keypass android123 \
+              -dname "CN=CI Build, OU=App, O=Vault, L=City, S=State, C=US"
+            cat > android/key.properties <<EOF
+          storePassword=android123
+          keyPassword=android123
+          keyAlias=releaseKey
+          storeFile=upload-keystore.jks
+          EOF
+          fi
 
-      - name: Build Signed Split APKs
+      - name: Build Split APKs
         run: flutter build apk --release --split-per-abi
 
       - name: Upload Release APKs Artifact
