@@ -74,7 +74,6 @@ class _StroopTestScreenState extends State<StroopTestScreen> {
   bool _isAssessingPostCraving = false;
 
   Tier2Result? _tier2Result;
-  final EscalationTierEvaluator _escalationEvaluator = const EscalationTierEvaluator();
 
   @override
   void initState() {
@@ -151,20 +150,11 @@ class _StroopTestScreenState extends State<StroopTestScreen> {
 
   void _evaluateEscalation() {
     final int elapsedSeconds = sessionDurationSeconds - _secondsRemaining;
-    final double avgReactionTime = _reactionTimesMs.isNotEmpty
-        ? _reactionTimesMs.reduce((int a, int b) => a + b) / _reactionTimesMs.length
-        : 0.0;
-    final double accuracy = _totalTrials > 0 ? (_correctTrials / _totalTrials) * 100 : 0.0;
 
     final StroopTestResult result = StroopTestResult(
       durationSeconds: elapsedSeconds,
-      initialCravingIntensity: _preCravingRating,
-      postTestCravingIntensity: _postCravingRating,
-      totalTrials: _totalTrials,
-      correctTrials: _correctTrials,
-      accuracyPercentage: accuracy,
-      averageReactionTimeMs: avgReactionTime,
-      completedAt: DateTime.now(),
+      initialCravingIntensity: _preCravingRating.toDouble(),
+      postTestCravingIntensity: _postCravingRating.toDouble(),
     );
 
     final Tier2Result tier2Check = _escalationEvaluator.evaluateTier2Instance(result);

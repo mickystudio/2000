@@ -33,7 +33,7 @@ void main() async {
 
   // 2. Check for widget zero-friction launch target
   final StealthModeService stealthService = StealthModeService();
-  final String? initialTarget = await stealthService.getInitialLaunchTarget();
+  final String? initialTarget = await stealthService.checkInitialLaunchTarget();
 
   runApp(SecureVaultApp(initialTarget: initialTarget));
 }
