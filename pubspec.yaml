@@ -1,0 +1,27 @@
+name: secure_offline_app
+description: "Production-ready offline-first secure Android application with SQLCipher encrypted database, Keystore master key, FLAG_SECURE and biometric authentication."
+publish_to: "none"
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+  flutter: ">=3.19.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  sqflite_sqlcipher: ^3.1.0
+  flutter_secure_storage: ^9.2.2
+  local_auth: ^2.3.0
+  path: ^1.9.0
+  crypto: ^3.0.3
+  intl: ^0.19.0
+  encrypt: ^5.0.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true

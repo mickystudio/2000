@@ -1,0 +1,6 @@
+{
+  "name": "Secure Offline Architecture & Encrypted Database",
+  "description": "Production-ready offline-first secure Android Flutter architecture featuring SQLCipher encryption, Keystore-backed 256-bit master key storage, native FLAG_SECURE hardware protection, biometric authentication, and comprehensive audit diagnostics.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
